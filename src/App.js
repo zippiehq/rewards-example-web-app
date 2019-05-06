@@ -1,26 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import './App.css'
+import { reward } from '@zippie/zippie-utils'
+import LogoSVG from './assets/zippie_logo_vertical_rgb.svg'
+import { parseQuery } from './utils'
 
-function App() {
+const getCustomerUrl = (userId, pending, wallets, cheques) => {
+  return "https://customer.zippie.org/#/" + userId + "/" + pending + "/" + wallets + "/" + cheques
+}
+
+const App = () => {
+  const tokenAddress = "0x374FaBa19192a123Fbb0c3990e3EeDcFeeaad42A";
+  const userId = "F07E51B3E0FF2492364B35382E697D73"
+  const apiKey = "user";
+  
+  const [balance, setBalance] = useState(0)
+  const [pending, setPending] = useState(0)
+  const [wallets, setWallets] = useState(0)
+  const [cheques, setCheques] = useState(0)
+  
+  useEffect(() => {
+    // Retrieve REFERRAL_CODE from https://YOUR_URL?referrer=REFERRAL_CODE
+    let queryParams = parseQuery(window.location.search)
+    console.log('referrer: ' + queryParams.referrer)
+  }, [])
+
+  useEffect(() => {
+    // Retrieve the user balance
+    async function fetchData() {
+      reward.init('', '', apiKey, undefined)
+      const userBalance = await reward.getUserBalance(userId, tokenAddress)
+      setBalance(userBalance.balance)
+      setPending(userBalance.pending)
+      setWallets(userBalance.wallets)
+      setCheques(userBalance.cheques)
+      console.log('balance: ' + userBalance.balance)
+    }
+    fetchData()
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+        <img src={LogoSVG} alt="logo" />
+        <h2>Balance</h2>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href={getCustomerUrl(userId, pending, wallets, cheques)}
           target="_blank"
           rel="noopener noreferrer"
-        >
-          Learn React
+          >
+          <h1>{balance}</h1>
         </a>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
