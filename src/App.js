@@ -4,8 +4,8 @@ import { reward } from '@zippie/zippie-utils'
 import LogoSVG from './assets/zippie_logo_vertical_rgb.svg'
 import { parseQuery } from './utils'
 
-const getCustomerUrl = (userId, pending, wallets, cheques) => {
-  return "https://customer.zippie.org/#/" + userId + "/" + pending + "/" + wallets + "/" + cheques
+const getCustomerUrl = (userId, tokenAddress) => {
+  return "https://customer-test.zippierewards.com/#/" + userId + "/" + tokenAddress
 }
 
 const App = () => {
@@ -45,7 +45,7 @@ const App = () => {
         <h2>Balance</h2>
         <a
           className="App-link"
-          href={getCustomerUrl(userId, pending, wallets, cheques)}
+          href={getCustomerUrl(userId, tokenAddress)}
           target="_blank"
           rel="noopener noreferrer"
           >
