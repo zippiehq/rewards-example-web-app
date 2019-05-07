@@ -46,7 +46,6 @@ const App = () => {
         <a
           className="App-link"
           href={getCustomerUrl(userId, tokenAddress)}
-          target="_blank"
           rel="noopener noreferrer"
           >
           <h1>{balance}</h1>
