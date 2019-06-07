@@ -27,7 +27,7 @@ const App = () => {
   useEffect(() => {
     // Retrieve the user balance
     async function fetchData() {
-      reward.init('', '', apiKey, undefined, 'https://goerli-rewardapi.zippie.org')
+      reward.init('', '', apiKey, 'https://goerli-rewardapi.zippie.org')
       const userBalance = await reward.getUserBalance(userId, tokenAddress)
       setBalance(userBalance.balance)
       setPending(userBalance.pending)
